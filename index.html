@@ -1,1 +1,268 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minion World - Das ultimative Minion Fandom</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="minion-logo">🍌 Minion World</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#characters" class="nav-link">Charaktere</a></li>
+                <li><a href="#games" class="nav-link">Spiele</a></li>
+                <li><a href="#facts" class="nav-link">Fun Facts</a></li>
+                <li><a href="#gallery" class="nav-link">Galerie</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
 
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">Willkommen in der <span class="highlight">Minion World!</span></h1>
+                <p class="hero-subtitle">Das ultimative Fandom für alle Minion-Fans! Entdecke die verrückte Welt von Gru's gelben Helfern.</p>
+                <button class="cta-button" onclick="playMinionSound()">🍌 BA-NA-NA! 🍌</button>
+            </div>
+            <div class="hero-minions">
+                <div class="minion minion-1">
+                    <div class="minion-body">
+                        <div class="minion-eye">
+                            <div class="pupil"></div>
+                        </div>
+                        <div class="minion-eye">
+                            <div class="pupil"></div>
+                        </div>
+                        <div class="minion-mouth"></div>
+                    </div>
+                    <div class="minion-overall"></div>
+                </div>
+                <div class="minion minion-2">
+                    <div class="minion-body">
+                        <div class="minion-eye-single">
+                            <div class="pupil"></div>
+                        </div>
+                        <div class="minion-mouth"></div>
+                    </div>
+                    <div class="minion-overall"></div>
+                </div>
+                <div class="minion minion-3">
+                    <div class="minion-body">
+                        <div class="minion-eye">
+                            <div class="pupil"></div>
+                        </div>
+                        <div class="minion-eye">
+                            <div class="pupil"></div>
+                        </div>
+                        <div class="minion-mouth"></div>
+                    </div>
+                    <div class="minion-overall"></div>
+                </div>
+            </div>
+        </div>
+        <div class="floating-bananas">
+            <div class="banana banana-1">🍌</div>
+            <div class="banana banana-2">🍌</div>
+            <div class="banana banana-3">🍌</div>
+            <div class="banana banana-4">🍌</div>
+        </div>
+    </section>
+
+    <!-- Characters Section -->
+    <section id="characters" class="characters">
+        <div class="container">
+            <h2 class="section-title">Unsere Lieblings-Charaktere</h2>
+            <div class="character-grid">
+                <div class="character-card" onclick="showCharacterInfo('kevin')">
+                    <div class="character-avatar kevin-avatar"></div>
+                    <h3>Kevin</h3>
+                    <p>Der große Anführer</p>
+                </div>
+                <div class="character-card" onclick="showCharacterInfo('stuart')">
+                    <div class="character-avatar stuart-avatar"></div>
+                    <h3>Stuart</h3>
+                    <p>Der rebellische Musikliebhaber</p>
+                </div>
+                <div class="character-card" onclick="showCharacterInfo('bob')">
+                    <div class="character-avatar bob-avatar"></div>
+                    <h3>Bob</h3>
+                    <p>Der süße kleine Träumer</p>
+                </div>
+                <div class="character-card" onclick="showCharacterInfo('gru')">
+                    <div class="character-avatar gru-avatar"></div>
+                    <h3>Gru</h3>
+                    <p>Der beste Boss der Welt</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Games Section -->
+    <section id="games" class="games">
+        <div class="container">
+            <h2 class="section-title">Interaktive Spiele</h2>
+            <div class="games-grid">
+                <div class="game-card">
+                    <h3>🍌 Banana Klicker</h3>
+                    <p>Klicke so viele Bananen wie möglich!</p>
+                    <div class="banana-game">
+                        <div class="banana-score">Bananen: <span id="banana-count">0</span></div>
+                        <button class="banana-click" onclick="clickBanana()">🍌</button>
+                    </div>
+                </div>
+                <div class="game-card">
+                    <h3>🎵 Minion Sprach-Generator</h3>
+                    <p>Übersetze deine Wörter in Minion-Sprache!</p>
+                    <div class="translator-game">
+                        <input type="text" id="human-text" placeholder="Gib ein Wort ein...">
+                        <button onclick="translateToMinion()">Übersetzen</button>
+                        <div class="minion-translation" id="minion-result"></div>
+                    </div>
+                </div>
+                <div class="game-card">
+                    <h3>🎯 Minion Memory</h3>
+                    <p>Finde die passenden Minion-Paare!</p>
+                    <div class="memory-game" id="memory-game">
+                        <!-- Memory cards will be generated by JavaScript -->
+                    </div>
+                    <button onclick="startMemoryGame()">Neues Spiel starten</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fun Facts Section -->
+    <section id="facts" class="facts">
+        <div class="container">
+            <h2 class="section-title">Lustige Minion Facts</h2>
+            <div class="facts-container">
+                <div class="fact-card active" id="fact-0">
+                    <div class="fact-icon">🤓</div>
+                    <h3>Wusstest du schon?</h3>
+                    <p>Die Minions sprechen eine Mischung aus verschiedenen Sprachen, genannt "Minionese"!</p>
+                </div>
+                <div class="fact-card" id="fact-1">
+                    <div class="fact-icon">🍌</div>
+                    <h3>Bananen-Fakt</h3>
+                    <p>Minions sind evolutionär darauf programmiert, dem bösesten Anführer zu folgen - aber sie lieben Bananen noch mehr!</p>
+                </div>
+                <div class="fact-card" id="fact-2">
+                    <div class="fact-icon">👁️</div>
+                    <h3>Augen-Fakt</h3>
+                    <p>Es gibt Minions mit einem Auge, zwei Augen, aber niemals mit drei Augen!</p>
+                </div>
+                <div class="fact-card" id="fact-3">
+                    <div class="fact-icon">🎬</div>
+                    <h3>Film-Fakt</h3>
+                    <p>Der erste Minions-Film war einer der erfolgreichsten Animationsfilme aller Zeiten!</p>
+                </div>
+            </div>
+            <div class="fact-navigation">
+                <button onclick="previousFact()">← Vorheriger</button>
+                <button onclick="nextFact()">Nächster →</button>
+                <button onclick="randomFact()">🎲 Zufälliger Fakt</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="gallery">
+        <div class="container">
+            <h2 class="section-title">Minion Galerie</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item" onclick="openModal('image1')">
+                    <div class="gallery-placeholder minion-scene-1">
+                        <div class="scene-title">Labor Chaos</div>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="openModal('image2')">
+                    <div class="gallery-placeholder minion-scene-2">
+                        <div class="scene-title">Banana Party</div>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="openModal('image3')">
+                    <div class="gallery-placeholder minion-scene-3">
+                        <div class="scene-title">Minion Band</div>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="openModal('image4')">
+                    <div class="gallery-placeholder minion-scene-4">
+                        <div class="scene-title">Superhelden Minions</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quote Section -->
+    <section class="quotes">
+        <div class="container">
+            <h2 class="section-title">Legendäre Minion Zitate</h2>
+            <div class="quote-display">
+                <div class="quote-text" id="current-quote">
+                    "Bello! Poopaye? Bananaaaa!"
+                </div>
+                <div class="quote-author">- Kevin, Stuart & Bob</div>
+                <button class="new-quote-btn" onclick="newQuote()">Neues Zitat</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>🍌 Minion World</h3>
+                    <p>Das ultimative Fandom für alle Minion-Liebhaber. Erstellt mit viel Liebe und noch mehr Bananen!</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#characters">Charaktere</a></li>
+                        <li><a href="#games">Spiele</a></li>
+                        <li><a href="#facts">Fun Facts</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Folge uns</h4>
+                    <div class="social-links">
+                        <span>🐦 Twitter</span>
+                        <span>📘 Facebook</span>
+                        <span>📷 Instagram</span>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Minion World. Alle Rechte vorbehalten. Bananen inklusive! 🍌</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal for Gallery -->
+    <div id="gallery-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div class="modal-body" id="modal-body">
+                <!-- Modal content will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
