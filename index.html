@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="background-bananas"></div>
     <div id="flying-minion"></div>
     <div id="banana-rain"></div>
     <div id="confetti-container"></div>
@@ -17,15 +18,15 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <a href="#home" class="minion-logo">🍌 Minion World</a>
+                <a href="#home" id="logo" class="minion-logo">🍌 Minion World</a>
             </div>
             <ul class="nav-menu">
-                <li><a href="#hero" class="nav-link">Home</a></li>
-                <li><a href="#minion-of-the-day" class="nav-link">Minion des Tages</a></li>
-                <li><a href="#characters" class="nav-link">Charaktere</a></li>
-                <li><a href="#games" class="nav-link">Spiele</a></li>
-                <li><a href="#soundboard" class="nav-link">Soundboard</a></li>
-                <li><a href="#gallery" class="nav-link">Galerie</a></li>
+                <li><a href="#hero" class="nav-link">Home 🍌</a></li>
+                <li><a href="#characters" class="nav-link">Charaktere 🤓</a></li>
+                <li><a href="#games" class="nav-link">Minion Games 🎮</a></li>
+                <li><a href="#gallery" class="nav-link">Fan Art 🎨</a></li>
+                <li><a href="#generator" class="nav-link">Minion Generator 🧬</a></li>
+                <li><a href="#about" class="nav-link">Über uns 🥰</a></li>
             </ul>
             <div class="hamburger">
                 <span></span>
@@ -38,7 +39,12 @@
     <!-- Hero Section -->
     <section id="hero" class="hero">
         <div class="hero-content">
-            <h1 class="hero-title">Willkommen in der <span class="highlight">Verrückten Welt</span> der Minions!</h1>
+            <h1 class="hero-title">
+                <span>W</span><span>e</span><span>l</span><span>c</span><span>o</span><span>m</span><span>e</span>
+                <span>t</span><span>o</span>
+                <span>M</span><span>I</span><span>N</span><span>I</span><span>O</span><span>N</span>
+                <span>W</span><span>O</span><span>R</span><span>L</span><span>D</span>
+            </h1>
             <p class="hero-subtitle">Das ultimative Fandom für alle, die Bananen, Chaos und liebenswerte gelbe Helfer lieben!</p>
             <a href="#games" class="cta-button">🍌 Spiel die Spiele! 🍌</a>
         </div>
@@ -82,28 +88,23 @@
         <div class="container">
             <h2 class="section-title">Interaktive Spiele</h2>
             <div class="games-grid">
-                <div class="game-card banana-clicker-game">
-                    <h3>🍌 Banana Klicker</h3>
-                    <p>Klicke die Banane und sammle Punkte!</p>
-                    <div class="banana-game">
-                        <div class="banana-score">Bananen: <span id="banana-count">0</span></div>
-                        <button class="banana-click" onclick="clickBanana()">🍌</button>
+                <div class="game-card banana-catch-game">
+                    <h3>🍌 Banana Catch</h3>
+                    <p>Fange so viele fallende Bananen wie möglich!</p>
+                    <div class="banana-catch-container">
+                        <div id="banana-catch-game"></div>
+                        <div class="banana-catch-score">Score: <span id="banana-catch-score">0</span></div>
+                        <div class="banana-catch-highscore">Highscore: <span id="banana-catch-highscore">0</span></div>
                     </div>
                 </div>
-                <div class="game-card minion-translator-game">
-                    <h3>🎵 Minion Sprach-Generator</h3>
-                    <p>Übersetze deine Wörter in Minion-Sprache!</p>
-                    <div class="translator-game">
-                        <input type="text" id="human-text" placeholder="Gib ein Wort ein...">
-                        <button onclick="translateToMinion()">Übersetzen</button>
-                        <div class="minion-translation" id="minion-result"></div>
+                <div class="game-card grus-escape-game">
+                    <h3>Gru's Escape</h3>
+                    <p>Hilf Kevin, den Hindernissen auszuweichen!</p>
+                    <div class="grus-escape-container">
+                        <canvas id="grus-escape-canvas" width="300" height="150"></canvas>
+                        <div class="grus-escape-score">Score: <span id="grus-escape-score">0</span></div>
+                        <div class="grus-escape-highscore">Highscore: <span id="grus-escape-highscore">0</span></div>
                     </div>
-                </div>
-                <div class="game-card minion-memory-game">
-                    <h3>🎯 Minion Memory</h3>
-                    <p>Finde die passenden Minion-Paare!</p>
-                    <div class="memory-game" id="memory-game"></div>
-                    <button onclick="startMemoryGame()">Neues Spiel</button>
                 </div>
             </div>
         </div>
@@ -138,9 +139,57 @@
     <!-- Gallery Section -->
     <section id="gallery" class="gallery">
         <div class="container">
-            <h2 class="section-title">Interaktive Galerie</h2>
+            <h2 class="section-title">Fan Art Galerie</h2>
+            <div class="top-of-the-month">
+                <h3>Top of the Month <span id="crown">👑</span></h3>
+                <div id="top-fan-art"></div>
+            </div>
+            <div class="upload-section">
+                <input type="file" id="fan-art-upload" accept="image/*">
+                <button id="upload-button">Bild hochladen</button>
+            </div>
             <div class="gallery-grid" id="gallery-grid">
                 <!-- Gallery items will be generated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Minion Generator Section -->
+    <section id="generator" class="generator">
+        <div class="container">
+            <h2 class="section-title">Minion Generator</h2>
+            <div class="generator-container">
+                <div class="minion-preview">
+                    <div id="minion-output"></div>
+                    <button id="download-minion">Als PNG herunterladen</button>
+                </div>
+                <div class="minion-options">
+                    <div class="option-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="minion-name" readonly>
+                        <button id="random-name">Zufälliger Name</button>
+                    </div>
+                    <div class="option-group">
+                        <label for="eyes">Augen:</label>
+                        <select id="eyes">
+                            <option value="one">Eins</option>
+                            <option value="two">Zwei</option>
+                        </select>
+                    </div>
+                    <div class="option-group">
+                        <label for="hair">Frisur:</label>
+                        <select id="hair">
+                            <option value="none">Keine</option>
+                            <option value="spiky">Stachelig</option>
+                            <option value="parted">Gescheitelt</option>
+                        </select>
+                    </div>
+                    <div class="option-group">
+                        <label for="color">Farbe:</label>
+                        <input type="color" id="minion-color" value="#FEE440">
+                    </div>
+                    <button id="minion-sound">Bee Do Bee Do</button>
+                </div>
             </div>
         </div>
     </section>
@@ -185,6 +234,7 @@
         </div>
     </div>
 
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

@@ -48,6 +48,12 @@ document.addEventListener('DOMContentLoaded', () => {
     setupEventListeners();
     animateHeroMinions();
     startBananaRain();
+
+    const logo = document.getElementById('logo');
+    const bananaSound = new Audio('banana.mp3');
+    logo.addEventListener('click', () => {
+        bananaSound.play();
+    });
 });
 
 // --- Population Functions ---
@@ -224,15 +230,21 @@ function animateHeroMinions() {
 
 function startBananaRain() {
     const container = document.getElementById('banana-rain');
-    for (let i = 0; i < 20; i++) {
-        const banana = document.createElement('div');
-        banana.className = 'banana';
-        banana.textContent = '🍌';
-        banana.style.left = `${Math.random() * 100}vw`;
-        banana.style.animationDuration = `${Math.random() * 3 + 2}s`;
-        banana.style.animationDelay = `${Math.random() * 5}s`;
-        container.appendChild(banana);
-    }
+
+    window.addEventListener('scroll', () => {
+        for (let i = 0; i < 5; i++) {
+            const banana = document.createElement('div');
+            banana.className = 'banana';
+            banana.textContent = '🍌';
+            banana.style.left = `${Math.random() * 100}vw`;
+            banana.style.animationDuration = `${Math.random() * 3 + 2}s`;
+            container.appendChild(banana);
+
+            setTimeout(() => {
+                banana.remove();
+            }, 5000);
+        }
+    });
 }
 
 function triggerConfetti() {
@@ -286,6 +298,305 @@ function showNotification(message) {
     }, 3000);
 }
 
+// --- Minion Generator ---
+function setupMinionGenerator() {
+    const randomNameButton = document.getElementById('random-name');
+    const minionNameInput = document.getElementById('minion-name');
+    const eyesSelect = document.getElementById('eyes');
+    const hairSelect = document.getElementById('hair');
+    const colorInput = document.getElementById('minion-color');
+    const minionOutput = document.getElementById('minion-output');
+    const downloadButton = document.getElementById('download-minion');
+    const soundButton = document.getElementById('minion-sound');
+
+    const names1 = ["Dave", "Carl", "Paul", "Jerry", "Tim"];
+    const names2 = ["inator", "-o-matic", "tron", "-o-rama", "zilla"];
+
+    function generateRandomName() {
+        const name1 = names1[Math.floor(Math.random() * names1.length)];
+        const name2 = names2[Math.floor(Math.random() * names2.length)];
+        const number = Math.floor(Math.random() * 1000);
+        return `${name1}${name2}${number}`;
+    }
+
+    function renderMinion() {
+        const eyes = eyesSelect.value;
+        const hair = hairSelect.value;
+        const color = colorInput.value;
+
+        minionOutput.innerHTML = `
+            <div style="background-color:${color}; position:relative; width:100%; height:100%; border-radius: 20px;">
+                ${hair === 'spiky' ? '<div style="position:absolute; top: -20px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 20px solid transparent; border-right: 20px solid transparent; border-bottom: 40px solid black;"></div>' : ''}
+                ${hair === 'parted' ? '<div style="position:absolute; top: 0; left: 50%; transform: translateX(-50%); width: 100px; height: 10px; background: black; border-radius: 5px;"></div>' : ''}
+                <div style="position:absolute; top:100px; left:50%; transform:translateX(-50%); display:flex; gap:10px;">
+                    <div style="width:50px; height:50px; background:white; border-radius:50%; border:2px solid black; display:flex; justify-content:center; align-items:center;"><div style="width:20px; height:20px; background:black; border-radius:50%;"></div></div>
+                    ${eyes === 'two' ? '<div style="width:50px; height:50px; background:white; border-radius:50%; border:2px solid black; display:flex; justify-content:center; align-items:center;"><div style="width:20px; height:20px; background:black; border-radius:50%;"></div></div>' : ''}
+                </div>
+                <div style="position:absolute; bottom:100px; left:50%; transform:translateX(-50%); width:80px; height:30px; border:2px solid black; border-top:none; border-radius:0 0 40px 40px; background:white;"></div>
+            </div>
+        `;
+    }
+
+    randomNameButton.addEventListener('click', () => {
+        minionNameInput.value = generateRandomName();
+    });
+
+    downloadButton.addEventListener('click', () => {
+        html2canvas(minionOutput).then(canvas => {
+            const link = document.createElement('a');
+            link.download = `${minionNameInput.value || 'minion'}.png`;
+            link.href = canvas.toDataURL();
+            link.click();
+        });
+    });
+
+    soundButton.addEventListener('click', () => {
+        const sound = new Audio('bee-do.mp3');
+        sound.play();
+    });
+
+    eyesSelect.addEventListener('change', renderMinion);
+    hairSelect.addEventListener('change', renderMinion);
+    colorInput.addEventListener('input', renderMinion);
+
+    // Initial render
+    minionNameInput.value = generateRandomName();
+    renderMinion();
+}
+
+
+// --- Banana Catch Game ---
+function setupBananaCatchGame() {
+    const gameArea = document.getElementById('banana-catch-game');
+    const scoreElement = document.getElementById('banana-catch-score');
+    const highscoreElement = document.getElementById('banana-catch-highscore');
+    let score = 0;
+    let highscore = localStorage.getItem('bananaCatchHighscore') || 0;
+    highscoreElement.textContent = highscore;
+
+    function createBanana() {
+        const banana = document.createElement('div');
+        banana.textContent = '🍌';
+        banana.className = 'falling-banana';
+        banana.style.left = Math.random() * (gameArea.offsetWidth - 30) + 'px';
+        banana.style.top = '-30px';
+
+        banana.addEventListener('click', () => {
+            score++;
+            scoreElement.textContent = score;
+            banana.remove();
+            if (score > highscore) {
+                highscore = score;
+                highscoreElement.textContent = highscore;
+                localStorage.setItem('bananaCatchHighscore', highscore);
+            }
+        });
+
+        gameArea.appendChild(banana);
+
+        let top = -30;
+        const fallInterval = setInterval(() => {
+            top += 5;
+            banana.style.top = top + 'px';
+            if (top > gameArea.offsetHeight) {
+                banana.remove();
+                clearInterval(fallInterval);
+            }
+        }, 50);
+    }
+
+    setInterval(createBanana, 1000);
+}
+
+
+// --- Gru's Escape Game ---
+function setupGrusEscapeGame() {
+    const canvas = document.getElementById('grus-escape-canvas');
+    const ctx = canvas.getContext('2d');
+    const scoreElement = document.getElementById('grus-escape-score');
+    const highscoreElement = document.getElementById('grus-escape-highscore');
+
+    let score = 0;
+    let highscore = localStorage.getItem('grusEscapeHighscore') || 0;
+    highscoreElement.textContent = highscore;
+
+    const player = {
+        x: 50,
+        y: 100,
+        width: 20,
+        height: 30,
+        velocityY: 0,
+        isJumping: false
+    };
+
+    const obstacles = [];
+
+    function drawPlayer() {
+        ctx.fillStyle = '#FEE440';
+        ctx.fillRect(player.x, player.y, player.width, player.height);
+    }
+
+    function drawObstacles() {
+        obstacles.forEach(obstacle => {
+            ctx.fillStyle = '#333';
+            ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+        });
+    }
+
+    function update() {
+        // Update player
+        player.y += player.velocityY;
+        player.velocityY += 1; // Gravity
+
+        if (player.y > canvas.height - player.height) {
+            player.y = canvas.height - player.height;
+            player.velocityY = 0;
+            player.isJumping = false;
+        }
+
+        // Update obstacles
+        obstacles.forEach(obstacle => {
+            obstacle.x -= 3;
+        });
+
+        // Remove off-screen obstacles
+        if (obstacles.length > 0 && obstacles[0].x < -obstacles[0].width) {
+            obstacles.shift();
+            score++;
+            scoreElement.textContent = score;
+            if (score > highscore) {
+                highscore = score;
+                highscoreElement.textContent = highscore;
+                localStorage.setItem('grusEscapeHighscore', highscore);
+            }
+        }
+
+        // Collision detection
+        obstacles.forEach(obstacle => {
+            if (
+                player.x < obstacle.x + obstacle.width &&
+                player.x + player.width > obstacle.x &&
+                player.y < obstacle.y + obstacle.height &&
+                player.y + player.height > obstacle.y
+            ) {
+                // Game over
+                alert('Game Over!');
+                score = 0;
+                scoreElement.textContent = score;
+                obstacles.length = 0;
+            }
+        });
+
+
+        // Clear canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        drawPlayer();
+        drawObstacles();
+
+        requestAnimationFrame(update);
+    }
+
+    function jump() {
+        if (!player.isJumping) {
+            player.velocityY = -15;
+            player.isJumping = true;
+        }
+    }
+
+    setInterval(() => {
+        const height = Math.random() * 50 + 20;
+        obstacles.push({
+            x: canvas.width,
+            y: canvas.height - height,
+            width: 20,
+            height: height
+        });
+    }, 1500);
+
+    document.addEventListener('keydown', (e) => {
+        if (e.code === 'Space') {
+            jump();
+        }
+    });
+
+    update();
+}
+
+
+// --- Fan Art Gallery ---
+function setupFanArtGallery() {
+    const uploadButton = document.getElementById('upload-button');
+    const fanArtUpload = document.getElementById('fan-art-upload');
+    const galleryGrid = document.getElementById('gallery-grid');
+    const topFanArt = document.getElementById('top-fan-art');
+    let fanArtItems = JSON.parse(localStorage.getItem('fanArtItems')) || [];
+
+    function renderGallery() {
+        galleryGrid.innerHTML = '';
+        fanArtItems.forEach((item, index) => {
+            const galleryItem = document.createElement('div');
+            galleryItem.className = 'gallery-item';
+            galleryItem.innerHTML = `
+                <img src="${item.image}" alt="Fan Art">
+                <div class="overlay">
+                    <button class="like-button" data-index="${index}">❤️ ${item.likes}</button>
+                </div>
+            `;
+            galleryGrid.appendChild(galleryItem);
+        });
+        updateTopFanArt();
+    }
+
+    function updateTopFanArt() {
+        if (fanArtItems.length === 0) return;
+        const topItem = fanArtItems.reduce((prev, current) => (prev.likes > current.likes) ? prev : current);
+        topFanArt.innerHTML = `<img src="${topItem.image}" alt="Top Fan Art" style="width:100%; height:100%; object-fit:cover; border-radius:10px;">`;
+    }
+
+    uploadButton.addEventListener('click', () => {
+        const file = fanArtUpload.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                fanArtItems.push({
+                    image: e.target.result,
+                    likes: 0
+                });
+                localStorage.setItem('fanArtItems', JSON.stringify(fanArtItems));
+                renderGallery();
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    galleryGrid.addEventListener('click', (e) => {
+        if (e.target.classList.contains('like-button')) {
+            const index = e.target.dataset.index;
+            fanArtItems[index].likes++;
+            localStorage.setItem('fanArtItems', JSON.stringify(fanArtItems));
+            renderGallery();
+        } else if (e.target.tagName === 'IMG') {
+            const item = fanArtItems.find(i => i.image === e.target.src);
+            const minionComments = ["Bello!", "Poopaye!", "Banana!", "Bee-do Bee-do!"];
+            const randomComment = minionComments[Math.floor(Math.random() * minionComments.length)];
+            openModalWithComment(item.image, "Fan Art", randomComment);
+        }
+    });
+
+    function openModalWithComment(image, title, comment) {
+        const modal = document.getElementById('gallery-modal');
+        document.getElementById('modal-image-container').innerHTML = `<img src="${image}" alt="${title}">`;
+        document.getElementById('modal-title').textContent = title;
+        document.getElementById('modal-description').textContent = comment;
+
+        modal.style.display = 'block';
+    }
+
+    renderGallery();
+}
+
+
 // --- Event Listeners ---
 function setupEventListeners() {
     // Smooth scrolling
@@ -307,4 +618,9 @@ function setupEventListeners() {
         }
         lastScrollTop = st <= 0 ? 0 : st;
     }, false);
+
+    setupMinionGenerator();
+    setupBananaCatchGame();
+    setupGrusEscapeGame();
+    setupFanArtGallery();
 }
